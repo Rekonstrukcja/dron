@@ -14,7 +14,6 @@
       font-family: 'Mulish', sans-serif;
       color: white;
     }
-
     #wrapper {
       width: 75%;
       background: #2C2C2C;
@@ -22,7 +21,6 @@
       position: relative;
       padding: 20px;
     }
-
     header {
       display: flex;
       align-items: center;
@@ -30,71 +28,43 @@
       font-weight: bold;
       background: #171717;
     }
-
     #title {
       padding: 16px 24px;
       font-size: 24px;
       flex-grow: 1;
     }
-
     .group {
       margin-top: 20px;
       background: #2E2E2E;
       border-radius: 8px;
       overflow: hidden;
     }
-
     .group-title {
       padding: 12px;
       background: #1E1E1E;
       font-size: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       font-weight: bold;
       color: #ccc;
     }
-
-    .group-title:hover {
-      background: #252525;
-    }
-
     .player-list {
       padding: 0 20px 10px;
     }
-
     .player {
-      padding: 16px 0;
+      padding: 8px 0;
       border-bottom: 1px solid #333;
       font-size: 14px;
-      line-height: 1.6;
-      display: flex;
-      justify-content: space-between;
     }
-
-    .player div {
-      margin-right: 20px; /* Większe odstępy między elementami */
+    input, button {
+      margin: 10px 0;
     }
-
-    .player a {
-      color: #ffcc00;
-    }
-
-    .player a:hover {
-      text-decoration: underline;
-    }
-
     input {
       width: 168px;
       height: 36px;
       background: #232323;
       border: 0;
       color: white;
-      font-family: 'Mulish', sans-serif;
       padding: 4px 12px;
-      margin-bottom: 10px;
     }
-
     button {
       background: #4a4a4a;
       border: none;
@@ -102,21 +72,6 @@
       color: white;
       cursor: pointer;
       border-radius: 4px;
-    }
-
-    button:hover {
-      background: #5a5a5a;
-    }
-
-    .group-title img {
-      width: 16px;
-      margin-left: 10px;
-    }
-
-    #countdown {
-      font-size: 16px;
-      color: #ffcc00;
-      margin-left: 20px;
     }
   </style>
 </head>
@@ -126,67 +81,30 @@
       <div id="title">Lista Graczy</div>
     </header>
     
-    <label for="discordIdInput">Wpisz ID Discord:</label>
-    <input type="text" id="discordIdInput" placeholder="ID">
+    <label for="playerNameInput">Wpisz nick gracza:</label>
+    <input type="text" id="playerNameInput" placeholder="Nick">
     <button onclick="filterPlayers()">Szukaj Gracza</button>
 
     <div id="players-container">
       <p>Ładowanie danych...</p>
     </div>
-    <div id="countdown"></div> <!-- Licznik do odświeżenia API -->
+    <div id="countdown"></div>
   </div>
 
   <script>
     const apiUrl = 'https://servers-frontend.fivem.net/api/servers/single/xl3y4e';
 
     const groups = {
-      "HITMAN (Legenda)": ["457215068531326976"],
-      "FORELLI (cioty)": ["352840761764610048", "328475445743976450", "521018705165942804", "327491663511420938", "821006496619167785", "488347978885627957", "399309366647324672", "369041564397469696", "158638858806755329", "453850165548417026", "954075997303631932", "424569659921268737", "475662017118732289", " 945711563669651496", "415994728543158278", "531227236565516299", "361906715123384321", "328475445743976450", "280746549347221515"],
-      "BROUGE": ["379054584796282883", "515912963052273675", "297099390106206208", "429718659452239883", "540327503060008962", "297414603804114944", "365021863514079237", "339762873729417228", "250614788936171520", "262971207886831616", "434405485928513537", "539116731508064324"],
-      "GAMBETTI(MOD)": ["557799404355190784", "679751291190247543", "325955666579685388", "264473786663960576", "659095469204701184", "422056716658802710", "751453634197455003", "475343972328538112", "336913573093572609", "384076964362977282", "404931239007485962", "227120514265645056", "964209368860065794", "554036539483488316", "1013239636274991164"],
-      "KILO TRAY BALLAS": ["312946608805249025", "381163913246408744", "477900654476656670", "279399700828782593", "332293235512836097", "735553233082122280", "994222280035020860", "675048185483362324", "515568888570970145", "375726915228663818", "747921407681233004", "444620519913029632", "900771095882383444", "311174079061164032", "1007670182245830797", "637683720043626505", "690650765416464456"],
-      "YAKUZA (cwel)": ["658039031992680470", "356167963579252737", "515255583360942125", "168723894541352960", "523257746942853121", "291909282784608258", "943911675189411851", "918660904176980019", "484080419504128028", "401802193595793448", "785222812923068416", "220279438317846528"],
-      "THE LOST MC": ["351852923892006912", "308659297636581376", "562279206625607680", "546028968839479297", "944321707852832848", "450265156396777482", "440206465114963968", "980887710438928404", "528302056310833153", "344037341532389376", "680448249232097416", "398880745197928448", "245553681087332353", "404364228951277569"],
-      "AOD": ["285865538759032832", "237498657837023240"],
-      "ZAIBATSU": ["212936215316529152", "501794089860333584", "985268380967776306", "737744475400568883", "716367999803850782", "417340617933193216", "467223079760691200", "851844665946537985", "937427756805939321", "1008454964764491898", "314869117444292611", "858402603436081202"],
-      "AZTECAS": ["619995078898745350", "302164549262508033", "210015164144025600", "635867943908933664", "901369442708094997", "377163637376417794", "1275547445593378837", "194062973755457536", "786960925034020944", "435453576718974977", "539765261872398367", "534797588956839977", "286569214293049345", "335842254684160000"]
+      "PRUJACE SIE MURZYNY": ["dywanjan", "George Droyd", "Pracowita Pamela", "orox", "Szenis", "morawsky", "AgaeS"],
+      "LA FUENTA WLOCH": ["DIPIDISAII", "Hardy", "Kucmosky", "milotoutch96", "Redzik", "Tali"],
+      "BROUGE": ["N3M3N", "maks", "Jerzy", "Jinx", "pracuś", "pracu?", "MydełkoFa", "Myde?koFa", "niBBarton", "RolePlayKing", "SzamaN", "Ni3mczyk", "UglyGod"],
+      "ZLODZIEJE": ["Gruby", "Ron Doe", "SzCzepan", "tolki", "Kapish46"],
+      "AZTECY": ["Piwoenjoyerkochampiwo16", "Wiktor2004", "ZostanTato", "KomandorFox", "SB Tek", "Mafy", "Young Slavey", "ydeax", "Jeralt", "E"],
+      "EKIPA MORAWSKIEGO": ["morawsky", "halo policja", "EnQ", "czol0o", "xyz", "bencu", "George Droyd", "Szenis", "Kemaz", "dywanjan", "Pracowita Pamela", "musniak"]
+      // Inne grupy...
     };
 
-    const hexToDecimal = (s) => {
-      var i,
-        j,
-        digits = [0],
-        carry;
-      for (i = 0; i < s.length; i += 1) {
-        carry = parseInt(s.charAt(i), 16);
-        for (j = 0; j < digits.length; j += 1) {
-          digits[j] = digits[j] * 16 + carry;
-          carry = (digits[j] / 10) | 0;
-          digits[j] %= 10;
-        }
-        while (carry > 0) {
-          digits.push(carry % 10);
-          carry = (carry / 10) | 0;
-        }
-      }
-      return digits.reverse().join('');
-    };
-
-    const getSteamId = (ids) => {
-      const filteredIdentifiers = ids.filter((identifier) => identifier.startsWith('steam:'));
-      if (filteredIdentifiers.length > 0) {
-        return hexToDecimal(filteredIdentifiers[0].substring(filteredIdentifiers[0].indexOf(':') + 1));
-      }
-    };
-
-    const getDiscordId = (ids) => {
-      const filteredIdentifiers = ids.filter((identifier) => identifier.startsWith('discord:'));
-      if (filteredIdentifiers.length > 0) {
-        return filteredIdentifiers[0].substring(filteredIdentifiers[0].indexOf(':') + 1);
-      }
-    };
-
-    let countdownTime = 60; // Czas w sekundach (60 sekund)
+    let countdownTime = 60;
     let countdownInterval;
 
     function updateCountdown() {
@@ -201,12 +119,7 @@
 
     function fetchPlayerData() {
       fetch(apiUrl)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json();
-        })
+        .then(response => response.json())
         .then(data => {
           const players = data?.Data?.players;
           const container = document.getElementById('players-container');
@@ -220,7 +133,7 @@
 
               const groupTitle = document.createElement('div');
               groupTitle.className = 'group-title';
-              groupTitle.innerHTML = `${groupName}`;
+              groupTitle.innerText = groupName;
               
               groupDiv.appendChild(groupTitle);
               
@@ -228,18 +141,11 @@
               playerListDiv.className = 'player-list';
               
               players.forEach(player => {
-                const discordId = getDiscordId(player.identifiers);
-                const steamId = getSteamId(player.identifiers);
-                const steamProfileUrl = steamId ? `https://steamcommunity.com/profiles/${steamId}` : '';
-
-                if (discordId && groups[groupName].includes(discordId)) {
+                if (groups[groupName].includes(player.name)) {
                   const playerDiv = document.createElement('div');
                   playerDiv.className = 'player';
                   playerDiv.innerHTML = `
-                    <div>ID: <b>[${player.id}]</b></div>
-                    <div>Name: <b>${player.name}</b></div>
-                    <div><img src="assets/discord-icon.svg" alt="Discord Icon" style="width: 16px; margin-right: 5px;"> <b>${discordId}</b></div>
-                    <div><img src="assets/steam-icon.svg" alt="Steam Icon" style="width: 16px; margin-right: 5px;"> <b><a href="${steamProfileUrl}" target="_blank">${steamId}</a></b></div>
+                    <b>${player.id}</b> - ${player.name}
                   `;
                   playerListDiv.appendChild(playerDiv);
                 }
@@ -256,21 +162,38 @@
     }
 
     function filterPlayers() {
-      const discordIdInput = document.getElementById('discordIdInput').value;
-      const allPlayerDivs = document.querySelectorAll('.player');
-      allPlayerDivs.forEach(playerDiv => {
-        const playerId = playerDiv.querySelector('b').textContent;
-        if (playerId === discordIdInput) {
-          playerDiv.style.display = 'block';
-        } else {
-          playerDiv.style.display = 'none';
-        }
-      });
+      const playerNameInput = document.getElementById('playerNameInput').value.toLowerCase();
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          const players = data?.Data?.players || [];
+          const container = document.getElementById('players-container');
+          container.innerHTML = '';
+
+          const filteredPlayers = players.filter(player => 
+            player.name.toLowerCase().includes(playerNameInput)
+          );
+
+          filteredPlayers.forEach(player => {
+            const playerDiv = document.createElement('div');
+            playerDiv.className = 'player';
+            playerDiv.innerHTML = `
+              <b>${player.id}</b> - ${player.name}
+            `;
+            container.appendChild(playerDiv);
+          });
+
+          if (filteredPlayers.length === 0) {
+            container.innerHTML = '<p>Nie znaleziono gracza o podanym nicku.</p>';
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching player data:', error);
+        });
     }
 
-    // Start the countdown and fetch player data initially
-    countdownInterval = setInterval(updateCountdown, 1000);
     fetchPlayerData();
+    countdownInterval = setInterval(updateCountdown, 1000);
   </script>
 </body>
 </html>
